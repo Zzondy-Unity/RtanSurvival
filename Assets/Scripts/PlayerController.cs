@@ -81,7 +81,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log("isGrounded?" + IsGrounded());
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
             _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
@@ -93,22 +92,16 @@ public class PlayerController : MonoBehaviour
         Ray[] rays = new Ray[4]
         {
             //책상다리 만들기 현재위치             살짝 앞에서                  조금 위로올라와서
-            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.5f) , Vector3.down),
-            new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.5f) , Vector3.down),
-            new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.5f) , Vector3.down),
-            new Ray(transform.position + (-transform.right * 0.2f) + (transform.up * 0.5f) , Vector3.down)
+            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f) , Vector3.down),
+            new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f) , Vector3.down),
+            new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f) , Vector3.down),
+            new Ray(transform.position + (-transform.right * 0.2f) + (transform.up * 0.01f) , Vector3.down)
         };
-        Debug.DrawRay(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down, Color.black);
-        Debug.DrawRay(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down, Color.black);
-        Debug.DrawRay(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down, Color.black);
-        Debug.DrawRay(transform.position + (-transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down, Color.black);
-
         for (int i = 0; i < rays.Length; i++)
         {
             //                          짧게    이 마스크에 해당하는 것만
             if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
             {
-                Debug.Log("dd");
                 return true;
             }
         }
